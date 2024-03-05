@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genesys Whatsapp Demo</title>
+  </head>
+  <body>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script
+      src="//sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"
+      defer
+    ></script>
+
+    <div x-data="auth">
+      <div x-show="!state">Loading</div>
+      <div x-show="state">Good</div>
+    </div>
+
+    <script>
+      document.addEventListener("alpine:init", () => {
+        const platformClient = require("platformClient");
+        const api = platformClient.ApiClient.instance;
+        const searchParameters = new URLSearchParams(
+          location.search.slice(1) || location.hash.slice(1)
+        );
+        const APP_NAME = "Genesys Whatsapp Demo";
+        const APP_PLATFORM_CLIENT_ID = "0bdfa132-0bce-4e77-85f5-67ed242d334c";
+        const APP_PLATFORM_REDIRECT_URL =
+          "https://dbritto-dev.github.io/genesys-demo/";
+
+        Alpine.data("auth", () => ({
+          state: null,
+          getServerState() {
+            return JSON.parse(
+              decodeURIComponent(searchParameters.get("state"))
+            );
+          },
+          getClientState() {
+            return { appName: APP_NAME };
+          },
+          onAuthenticated(state) {
+            console.log({ state });
+          },
+          onAuthenticating() {},
+          init() {
+            const serverState = this.getServerState();
+            const clientState = this.getClientState();
+
+            if (serverState) {
+              api
+                .loginImplicitGrant(
+                  APP_PLATFORM_CLIENT_ID,
+                  APP_PLATFORM_REDIRECT_URL
+                )
+                .then(() => {
+                  this.state = serverState;
+                  this.onAuthenticated(this.state);
+                });
+            } else {
+              api
+                .loginImplicitGrant(
+                  APP_PLATFORM_CLIENT_ID,
+                  APP_PLATFORM_REDIRECT_URL,
+                  JSON.stringify(clientState)
+                )
+                .then(() => {
+                  this.state = null;
+                  this.onAuthenticating(this.state);
+                });
+            }
+          },
+          destroy() {},
+        }));
+      });
+    </script>
+  </body>
+</html>
