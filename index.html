@@ -46,6 +46,8 @@
         const APP_PLATFORM_REDIRECT_URL =
           "https://dbritto-dev.github.io/genesys-demo/";
 
+        api.setEnvironment("apps.sae1.pure.cloud");
+
         Alpine.data("auth", () => ({
           state: null,
           getServerState() {
@@ -73,6 +75,9 @@
                 .then(() => {
                   this.state = serverState;
                   this.onAuthenticated(this.state);
+                })
+                .catch((e) => {
+                  console.log(e);
                 });
             } else {
               api
@@ -84,6 +89,9 @@
                 .then(() => {
                   this.state = null;
                   this.onAuthenticating(this.state);
+                })
+                .then((e) => {
+                  console.log(e);
                 });
             }
           },
