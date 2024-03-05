@@ -14,6 +14,23 @@
       <div x-show="state">Good</div>
     </div>
 
+    <div x-data="dropdown">
+      <button @click="toggle">Toggle Content</button>
+      <div x-show="open">Content...</div>
+    </div>
+
+    <script>
+      document.addEventListener("alpine:init", () => {
+        Alpine.data("dropdown", () => ({
+          open: false,
+
+          toggle() {
+            this.open = !this.open;
+          },
+        }));
+      });
+    </script>
+
     <script>
       document.addEventListener("alpine:init", () => {
         const platformClient = require("platformClient");
