@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Genesys WhatsApp Demo</title>
+    <title>Genesys Whatsapp Demo</title>
   </head>
   <body>
     <script
@@ -17,27 +17,35 @@
       <div x-show="state">Good</div>
     </div>
 
+    <div x-data="dropdown">
+      <button @click="toggle">Toggle Content</button>
+      <div x-show="open">Content...</div>
+    </div>
+
     <script>
-      window.__APP_NAME__ = "Genesys Whatsapp Demo";
-      window.__APP_PLATFORM_CLIENT_ID__ =
-        "faacf95d-903f-4db1-b00a-ecd8697d57a0";
-      window.__APP_PLATFORM_REDIRECT_URL__ =
-        "https://dbritto-dev.github.io/genesys-whatsapp-demo/";
+      document.addEventListener("alpine:init", () => {
+        Alpine.data("dropdown", () => ({
+          open: false,
+
+          toggle() {
+            this.open = !this.open;
+          },
+        }));
+      });
     </script>
 
     <script>
-      const APP_NAME = window.__APP_NAME__;
-      const APP_PLATFORM_CLIENT_ID = window.__APP_PLATFORM_CLIENT_ID__;
-      const APP_PLATFORM_REDIRECT_URL = window.__APP_PLATFORM_REDIRECT_URL__;
-
-      const platformClient = require("platformClient");
-      const api = platformClient.ApiClient.instance;
-      const usersApi = new platformClient.UsersApi();
-      const searchParameters = new URLSearchParams(
-        location.search.slice(1) || location.hash.slice(1)
-      );
-
       document.addEventListener("alpine:init", () => {
+        const platformClient = require("platformClient");
+        const api = platformClient.ApiClient.instance;
+        const searchParameters = new URLSearchParams(
+          location.search.slice(1) || location.hash.slice(1)
+        );
+        const APP_NAME = "Genesys Whatsapp Demo";
+        const APP_PLATFORM_CLIENT_ID = "faacf95d-903f-4db1-b00a-ecd8697d57a0";
+        const APP_PLATFORM_REDIRECT_URL =
+          "https://dbritto-dev.github.io/genesys-whatsapp-demo/";
+
         Alpine.data("auth", () => ({
           state: null,
           getServerState() {
