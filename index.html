@@ -12,10 +12,11 @@
     ></script>
     <script src="//unpkg.com/alpinejs@3.13.6/dist/cdn.min.js" defer></script>
 
-    <button x-data @click="$store.darkMode = ! $store.darkMode">
+    <!-- <button x-data @click="$store.darkMode = ! $store.darkMode">
       Toggle Dark Mode
     </button>
-    <div x-data :class="$store.darkMode && 'bg-black'">...</div>
+    <div x-data :class="$store.darkMode && 'bg-black'">...</div> -->
+    <div x-data x-text="$store.darkMode.on"></div>
 
     <div>
       <div x-data x-text="$store.auth.status"></div>
@@ -64,7 +65,7 @@
           },
         });
 
-        Alpine.store("auth", () => ({
+        Alpine.store("auth", {
           init() {
             console.log("init auth");
 
@@ -116,7 +117,7 @@
             this.error = error.message;
             this.status = "error";
           },
-        }));
+        });
       });
     </script>
   </body>
