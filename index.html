@@ -66,6 +66,8 @@
             const serverState = this.getServerState();
             const clientState = this.getClientState();
 
+            console.log("alpine auth init");
+
             if (serverState) {
               api
                 .loginImplicitGrant(
@@ -77,7 +79,7 @@
                   this.onAuthenticated(this.state);
                 })
                 .catch((e) => {
-                  console.log(e);
+                  console.log("alpine", e);
                 });
             } else {
               api
@@ -91,7 +93,7 @@
                   this.onAuthenticating(this.state);
                 })
                 .then((e) => {
-                  console.log(e);
+                  console.log("alpine", e);
                 });
             }
           },
