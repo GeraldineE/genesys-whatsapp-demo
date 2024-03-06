@@ -17,10 +17,14 @@
       defer
     ></script>
 
-    <div x-data x-show="$store.auth.status === 'authenticating'">
+    <div
+      x-data
+      x-show="$store.auth.status === 'authenticating'"
+      style="display: none"
+    >
       Authenticating...
     </div>
-    <div x-data x-show="$store.auth.status === 'success'">
+    <div x-data x-show="$store.auth.status === 'success'" style="display: none">
       <span x-data x-text="$store.auth.state.user.name"></span>
 
       <div
@@ -57,7 +61,7 @@
 
       <div x-data x-text="$store.app.selectedTabIndex"></div>
     </div>
-    <div x-data x-show="$store.auth.status === 'error'">
+    <div x-data x-show="$store.auth.status === 'error'" style="display: none">
       <span x-data x-text="$store.auth.error"></span>
     </div>
 
@@ -70,17 +74,6 @@
         location.pathname,
         location
       ).href;
-    </script>
-
-    <script>
-      document.addEventListener("alpine:init", () => {
-        Alpine.data("tabs", (initSelectedTabIndex = 0) => ({
-          selectedTabIndex: initSelectedTabIndex,
-          setSelectedTabIndex(nextSelectedTabIndex) {
-            this.selectedTabIndex = nextSelectedTabIndex;
-          },
-        }));
-      });
     </script>
 
     <script>
@@ -151,6 +144,17 @@
             this.status = "error";
           },
         });
+      });
+    </script>
+
+    <script>
+      document.addEventListener("alpine:init", () => {
+        Alpine.data("tabs", (initSelectedTabIndex = 0) => ({
+          selectedTabIndex: initSelectedTabIndex,
+          setSelectedTabIndex(nextSelectedTabIndex) {
+            this.selectedTabIndex = nextSelectedTabIndex;
+          },
+        }));
       });
     </script>
 
