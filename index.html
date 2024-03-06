@@ -12,6 +12,11 @@
     ></script>
     <script src="//unpkg.com/alpinejs@3.13.6/dist/cdn.min.js" defer></script>
 
+    <button x-data @click="$store.darkMode = ! $store.darkMode">
+      Toggle Dark Mode
+    </button>
+    <div x-data :class="$store.darkMode && 'bg-black'">...</div>
+
     <div>
       <div x-data x-text="$store.auth.status"></div>
       <div x-data x-show="$store.auth.status === 'authenticating'">
@@ -46,6 +51,8 @@
         );
 
         api.setEnvironment(__APP_PLATFORM_ENV__);
+
+        Alpine.store("darkMode", false);
 
         Alpine.store("auth", () => ({
           init() {
