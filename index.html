@@ -12,27 +12,17 @@
     ></script>
     <script src="//unpkg.com/alpinejs@3.13.6/dist/cdn.min.js" defer></script>
 
-    <!-- <button x-data @click="$store.darkMode = ! $store.darkMode">
-      Toggle Dark Mode
-    </button>
-    <div x-data :class="$store.darkMode && 'bg-black'">...</div> -->
-    <div x-data x-text="$store.darkMode.on"></div>
-
-    <div>
-      <div x-data x-text="$store.auth.status"></div>
-      <div x-data x-show="$store.auth.status === 'authenticating'">
-        Authenticating...
-      </div>
-      <div x-data x-show="$store.auth.status === 'success'">
-        Good
-        <span x-data x-text="JSON.stringify($store.auth.state)"></span>
-      </div>
-      <div
-        x-data
-        x-show="$store.auth.status === 'error'"
-        x-text="$store.auth.error"
-      ></div>
+    <div x-data x-show="$store.auth.status === 'authenticating'">
+      Authenticating...
     </div>
+    <div x-data x-show="$store.auth.status === 'success'">
+      <div x-data x-text="JSON.stringify($store.auth.state.user)"></div>
+    </div>
+    <div
+      x-data
+      x-show="$store.auth.status === 'error'"
+      x-text="$store.auth.error"
+    ></div>
 
     <script>
       window.__APP_NAME__ = "Genesys Whatsapp Demo";
@@ -47,28 +37,15 @@
       document.addEventListener("alpine:init", () => {
         const platformClient = require("platformClient");
         const api = platformClient.ApiClient.instance;
+        const usersApi = new platformClient.UsersApi();
         const searchParameters = new URLSearchParams(
           location.search.slice(1) || location.hash.slice(1)
         );
 
         api.setEnvironment(__APP_PLATFORM_ENV__);
 
-        Alpine.store("darkMode", {
-          init() {
-            console.log("init darkMode");
-
-            this.on = window.matchMedia("(prefers-color-scheme: dark)").matches;
-          },
-          on: false,
-          toggle() {
-            this.on = !this.on;
-          },
-        });
-
         Alpine.store("auth", {
           init() {
-            console.log("init auth");
-
             const serverState = this.getServerState();
             const clientState = this.getClientState();
 
@@ -78,7 +55,10 @@
                   __APP_PLATFORM_CLIENT_ID__,
                   __APP_PLATFORM_REDIRECT_URL__
                 )
-                .then(() => void this.onAuthenticated(serverState))
+                .then(() => usersApi.getUsersMe({ expand: ["presence"] }))
+                .then(
+                  (user) => void this.onAuthenticated({ ...serverState, user })
+                )
                 .catch((e) => this.onError(e));
             } else {
               api
@@ -118,6 +98,8 @@
             this.status = "error";
           },
         });
+
+        Alpine.store("app");
       });
     </script>
   </body>
