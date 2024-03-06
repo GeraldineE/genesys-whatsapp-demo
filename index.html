@@ -25,6 +25,7 @@
 
       <div
         role="tablist"
+        x-data="tabs($store.app.selectedTabIndex)"
         x-modelable="selectedTabIndex"
         x-model="$store.app.selectedTabIndex"
       >
@@ -32,7 +33,7 @@
           <button
             role="tab"
             type="button"
-            @click="setSelectedTabIndex(0)"
+            @click="setSelectedTabIndex(tabIndex)"
             :style="{ backgroundColor: selectedTabIndex === tabIndex ? 'salmon' : '' }"
             x-text="tab.label"
           ></button>
