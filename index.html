@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Genesys WhatsApp Demo</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/tailwindcss@3.4.1/base.min.css"
+    />
   </head>
   <body>
     <script
       src="//sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"
-      defer
-    ></script>
-    <script
-      src="//cdn.jsdelivr.net/npm/tailwindcss@3.4.1/lib/index.min.js"
       defer
     ></script>
     <script
@@ -63,8 +63,10 @@
       window.__APP_PLATFORM_ENV__ = "sae1.pure.cloud";
       window.__APP_PLATFORM_CLIENT_ID__ =
         "faacf95d-903f-4db1-b00a-ecd8697d57a0";
-      window.__APP_PLATFORM_REDIRECT_URL__ =
-        "https://dbritto-dev.github.io/genesys-whatsapp-demo/";
+      window.__APP_PLATFORM_REDIRECT_URL__ = new URL(
+        location.pathname,
+        location
+      ).href;
     </script>
 
     <script>
