@@ -87,30 +87,30 @@
         );
 
         Alpine.store("auth", {
-          init() {
+          async init() {
             const serverState = this.getServerState();
             const clientState = this.getClientState();
 
-            if (serverState) {
-              api
-                .loginImplicitGrant(
+            try {
+              if (serverState) {
+                await api.loginImplicitGrant(
                   __APP_PLATFORM_CLIENT_ID__,
                   __APP_PLATFORM_REDIRECT_URL__
-                )
-                .then(() => usersApi.getUsersMe())
-                .then(
-                  (user) => void this.onAuthenticated({ ...serverState, user })
-                )
-                .catch((e) => this.onError(e));
-            } else {
-              api
-                .loginImplicitGrant(
+                );
+                const user = await usersApi.getUsersMe();
+
+                this.onAuthenticated({ ...serverState, user });
+              } else {
+                await api.loginImplicitGrant(
                   __APP_PLATFORM_CLIENT_ID__,
                   __APP_PLATFORM_REDIRECT_URL__,
                   { state: JSON.stringify(clientState) }
-                )
-                .then(() => void this.onAuthenticating())
-                .catch((e) => void this.onError(e));
+                );
+
+                this.onAuthenticating();
+              }
+            } catch (error) {
+              this.onError(error);
             }
           },
           state: undefined,
