@@ -6,8 +6,14 @@
     <title>Genesys WhatsApp Demo</title>
   </head>
   <body>
+    <script
+      src="//sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"
+      defer
+    ></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+
     <div x-data="auth">
-      <div x-show="!state">Authenticating...</div>
+      <div x-show="!state">Loading</div>
       <div x-show="state">Good</div>
     </div>
 
@@ -33,8 +39,7 @@
 
       document.addEventListener("alpine:init", () => {
         Alpine.data("auth", () => ({
-          state: undefined,
-          error: null,
+          state: null,
           getServerState() {
             return JSON.parse(
               decodeURIComponent(searchParameters.get("state"))
@@ -43,14 +48,17 @@
           getClientState() {
             return { appName: APP_NAME };
           },
-          onAuthenticated() {},
-          onAuthenticating() {},
-          onError() {},
+          onAuthenticated(state) {
+            console.log("authenticated", { state });
+          },
+          onAuthenticating(state) {
+            console.log("authenticating", { state });
+          },
           init() {
-            console.log("init auth");
-
             const serverState = this.getServerState();
             const clientState = this.getClientState();
+
+            console.log("alpine auth init", { serverState, clientState });
 
             if (serverState) {
               api
@@ -63,9 +71,7 @@
                   this.onAuthenticated(this.state);
                 })
                 .catch((e) => {
-                  this.state = undefined;
-                  this.error = e.message;
-                  this.onError(this.error);
+                  console.log("alpine", e);
                 });
             } else {
               api
@@ -75,43 +81,17 @@
                   { state: JSON.stringify(clientState) }
                 )
                 .then(() => {
-                  this.state = undefined;
-                  this.error = null;
+                  this.state = null;
                   this.onAuthenticating(this.state);
                 })
                 .catch((e) => {
-                  this.state = undefined;
-                  this.error = e.message;
-                  this.onError(this.error);
+                  console.log("alpine", e);
                 });
             }
           },
           destroy() {},
         }));
-
-        // Alpine.data("app", () => ({
-        //   user: null,
-        //   init() {
-        //     consle.log("init app");
-
-        //     usersApi
-        //       .getUsersMe({ expand: ["presence"] })
-        //       .then((r) => {
-        //         console.log("[DATA:APP]", { r });
-        //       })
-        //       .catch((e) => {
-        //         console.log("[DATA:APP]", e);
-        //       });
-        //   },
-        //   destroy() {},
-        // }));
       });
     </script>
-
-    <script
-      src="//sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"
-      defer
-    ></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
   </body>
 </html>
