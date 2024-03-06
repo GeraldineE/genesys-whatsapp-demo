@@ -16,7 +16,7 @@
       Authenticating...
     </div>
     <div x-data x-show="$store.auth.status === 'success'">
-      <div x-data x-text="JSON.stringify($store.auth.state.user)"></div>
+      <div x-data x-text="$store.auth.state.user.name"></div>
     </div>
     <div
       x-data
@@ -55,7 +55,7 @@
                   __APP_PLATFORM_CLIENT_ID__,
                   __APP_PLATFORM_REDIRECT_URL__
                 )
-                .then(() => usersApi.getUsersMe({ expand: ["presence"] }))
+                .then(() => usersApi.getUsersMe())
                 .then(
                   (user) => void this.onAuthenticated({ ...serverState, user })
                 )
