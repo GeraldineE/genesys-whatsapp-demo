@@ -52,7 +52,17 @@
 
         api.setEnvironment(__APP_PLATFORM_ENV__);
 
-        Alpine.store("darkMode", false);
+        Alpine.store("darkMode", {
+          init() {
+            console.log("init darkMode");
+
+            this.on = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          },
+          on: false,
+          toggle() {
+            this.on = !this.on;
+          },
+        });
 
         Alpine.store("auth", () => ({
           init() {
