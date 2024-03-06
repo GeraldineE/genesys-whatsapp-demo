@@ -25,35 +25,29 @@
 
       <div
         role="tablist"
-        x-data="tabs($store.app.selectedTabIndex)"
         x-modelable="selectedTabIndex"
         x-model="$store.app.selectedTabIndex"
       >
-        <button
-          role="tab"
-          type="button"
-          @click="setSelectedTabIndex(0)"
-          :style="{ backgroundColor: selectedTabIndex === 0 ? 'red' : '' }"
-        >
-          Template selector
-        </button>
-        <button
-          role="tab"
-          type="button"
-          @click="setSelectedTabIndex(1)"
-          :style="{ backgroundColor: selectedTabIndex === 1 ? 'red' : '' }"
-        >
-          Substitution tags
-        </button>
-        <button
-          role="tab"
-          type="button"
-          @click="setSelectedTabIndex(2)"
-          :style="{ backgroundColor: selectedTabIndex === 2 ? 'red' : '' }"
-        >
-          Preview
-        </button>
+        <template x-data x-for="(tab, tabIndex) in $store.app.tabs">
+          <button
+            role="tab"
+            type="button"
+            @click="setSelectedTabIndex(tabIndex)"
+            :style="{ backgroundColor: selectedTabIndex === tabIndex ? 'salmon' : '' }"
+            x-text="tab.label"
+          ></button>
+        </template>
       </div>
+
+      <div x-data x-show="$store.app.selectedTabIndex === 0">
+        <select>
+          <template x-data x-for="(template, templateIndex) in templates">
+            <option :value="templateIndex" x-text="template.label"></option>
+          </template>
+        </select>
+      </div>
+      <div x-data x-show="$store.app.selectedTabIndex === 1"></div>
+      <div x-data x-show="$store.app.selectedTabIndex === 2"></div>
 
       <div x-data x-text="$store.app.selectedTabIndex"></div>
     </div>
@@ -157,7 +151,30 @@
     <script>
       document.addEventListener("alpine:init", () => {
         Alpine.store("app", {
+          tabs: [
+            { label: "Template selector", value: "" },
+            { label: "Substitution tags", value: "" },
+            { label: "Preview", value: "" },
+          ],
           selectedTabIndex: 0,
+          templates: [
+            {
+              label: "Plantilla - Iniciar Chat",
+              value:
+                "WhatsApp_Template_Header;iniciarchat;es_ES;3c47f583-41ca-4700-8362-ce9b2b9a3409;\n\nHola soy <<{{1}}>> de Monitoreo Inteligente\n\nTenemos información importante para darte.\n¿Cómo estás hoy?",
+            },
+            {
+              label: "Plantilla - Saludo genérico Meta WhatsApp",
+              value:
+                "WhatsApp_Template;hello_world;en_US;3c47f583-41ca-4700-8362-ce9b2b9a3409;\n\nWelcome and congratulations!! This message demonstrates your ability to send a WhatsApp message notification from the Cloud API, hosted by Meta. Thank you for taking the time to test with us.\n\nWhatsApp Business Platform sample message\n",
+            },
+            {
+              label: "Plantilla - Saludo genérico Monitoreo Inteligente",
+              value:
+                "WhatsApp_Template;saludo;es_ES;3c47f583-41ca-4700-8362-ce9b2b9a3409;\n\nSomos Monitoreo Inteligente\n\nTenemos una información importante que darte.",
+            },
+          ],
+          selectedTemplateIndex: 0,
         });
       });
     </script>
