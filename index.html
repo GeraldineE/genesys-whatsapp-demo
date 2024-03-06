@@ -3,35 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Genesys Whatsapp Demo</title>
+    <title>Genesys WhatsApp Demo</title>
   </head>
   <body>
     <script
       src="//sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"
       defer
     ></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="//unpkg.com/alpinejs@3.13.6/dist/cdn.min.js" defer></script>
 
     <div x-data="auth">
-      <div x-show="!state">Loading</div>
-      <div x-show="state">Good</div>
-    </div>
-
-    <div x-data="dropdown">
-      <button @click="toggle">Toggle Content</button>
-      <div x-show="open">Content...</div>
+      <div x-show="!state && !error">Authenticating...</div>
+      <div x-show="state && !error">Good</div>
+      <div x-show="error" x-text="error"></div>
     </div>
 
     <script>
-      document.addEventListener("alpine:init", () => {
-        Alpine.data("dropdown", () => ({
-          open: false,
-
-          toggle() {
-            this.open = !this.open;
-          },
-        }));
-      });
+      window.__APP_NAME__ = "Genesys Whatsapp Demo";
+      window.__APP_PLATFORM_ENV__ = "sae1.pure.cloud";
+      window.__APP_PLATFORM_CLIENT_ID__ =
+        "faacf95d-903f-4db1-b00a-ecd8697d57a0";
+      window.__APP_PLATFORM_REDIRECT_URL__ =
+        "https://dbritto-dev.github.io/genesys-whatsapp-demo/";
     </script>
 
     <script>
@@ -41,61 +34,61 @@
         const searchParameters = new URLSearchParams(
           location.search.slice(1) || location.hash.slice(1)
         );
-        const APP_NAME = "Genesys Whatsapp Demo";
-        const APP_PLATFORM_CLIENT_ID = "faacf95d-903f-4db1-b00a-ecd8697d57a0";
-        const APP_PLATFORM_REDIRECT_URL =
-          "https://dbritto-dev.github.io/genesys-whatsapp-demo/";
 
-        api.setEnvironment("sae1.pure.cloud");
+        api.setEnvironment(__APP_PLATFORM_ENV__);
 
         Alpine.data("auth", () => ({
-          state: null,
+          state: undefined,
+          error: null,
           getServerState() {
             return JSON.parse(
               decodeURIComponent(searchParameters.get("state"))
             );
           },
           getClientState() {
-            return { appName: APP_NAME };
+            return { appName: __APP_NAME__ };
           },
-          onAuthenticated(state) {
-            console.log("authenticated", { state });
-          },
-          onAuthenticating(state) {
-            console.log("authenticating", { state });
+          onAuthenticated(state) {},
+          onAuthenticating(state) {},
+          onError(error) {
+            console.error(error.message);
           },
           init() {
             const serverState = this.getServerState();
             const clientState = this.getClientState();
 
-            console.log("alpine auth init", { serverState, clientState });
-
             if (serverState) {
               api
                 .loginImplicitGrant(
-                  APP_PLATFORM_CLIENT_ID,
-                  APP_PLATFORM_REDIRECT_URL
+                  __APP_PLATFORM_CLIENT_ID__,
+                  __APP_PLATFORM_REDIRECT_URL__
                 )
                 .then(() => {
+                  this.error = null;
                   this.state = serverState;
                   this.onAuthenticated(this.state);
                 })
                 .catch((e) => {
-                  console.log("alpine", e);
+                  this.error = e.message;
+                  this.state = undefined;
+                  this.onError(e);
                 });
             } else {
               api
                 .loginImplicitGrant(
-                  APP_PLATFORM_CLIENT_ID,
-                  APP_PLATFORM_REDIRECT_URL,
+                  __APP_PLATFORM_CLIENT_ID__,
+                  __APP_PLATFORM_REDIRECT_URL__,
                   { state: JSON.stringify(clientState) }
                 )
                 .then(() => {
-                  this.state = null;
+                  this.error = null;
+                  this.state = undefined;
                   this.onAuthenticating(this.state);
                 })
                 .catch((e) => {
-                  console.log("alpine", e);
+                  this.error = e.message;
+                  this.state = undefined;
+                  this.onError(e);
                 });
             }
           },
