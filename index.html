@@ -88,7 +88,7 @@
                 .loginImplicitGrant(
                   APP_PLATFORM_CLIENT_ID,
                   APP_PLATFORM_REDIRECT_URL,
-                  JSON.stringify({ state: clientState })
+                  { state: JSON.stringify(clientState) }
                 )
                 .then(() => {
                   this.state = null;
