@@ -12,16 +12,17 @@
     ></script>
     <script src="//unpkg.com/alpinejs@3.13.6/dist/cdn.min.js" defer></script>
 
-    <div x-data>
-      <div x-text="$store.auth.status"></div>
-      <div x-show="$store.auth.status == 'authenticating'">
+    <div>
+      <div x-data x-text="$store.auth.status"></div>
+      <div x-data x-show="$store.auth.status == 'authenticating'">
         Authenticating...
       </div>
-      <div x-show="$store.auth.status == 'success'">
+      <div x-data x-show="$store.auth.status == 'success'">
         Good
-        <span x-text="JSON.stringify($store.auth.state)"></span>
+        <span x-data x-text="JSON.stringify($store.auth.state)"></span>
       </div>
       <div
+        x-data
         x-show="$store.auth.status == 'error'"
         x-text="$store.auth.error"
       ></div>
