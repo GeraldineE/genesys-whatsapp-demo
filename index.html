@@ -4,10 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Genesys WhatsApp Demo</title>
-    <link
-      rel="stylesheet"
-      href="//cdn.jsdelivr.net/npm/tailwindcss@3.4.1/base.min.css"
-    />
   </head>
   <body>
     <script
@@ -27,28 +23,28 @@
     <div x-data x-show="$store.auth.status === 'success'">
       <span x-data x-text="$store.auth.state.user.name"></span>
 
-      <div
-        role="tablist"
-        class="inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground"
-      >
+      <div role="tablist" x-data="tabs">
         <button
           role="tab"
           type="button"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow"
+          @click="setSelectedTabIndex(0)"
+          :style="{ backgroundColor: selectedTabIndex === 0 ? 'red' : '' }"
         >
           Template selector
         </button>
         <button
           role="tab"
           type="button"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow"
+          @click="setSelectedTabIndex(1)"
+          :style="{ backgroundColor: selectedTabIndex === 1 ? 'red' : '' }"
         >
           Substitution tags
         </button>
         <button
           role="tab"
           type="button"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow"
+          @click="setSelectedTabIndex(2)"
+          :style="{ backgroundColor: selectedTabIndex === 2 ? 'red' : '' }"
         >
           Preview
         </button>
