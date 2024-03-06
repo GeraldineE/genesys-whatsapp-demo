@@ -10,19 +10,53 @@
       src="//sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"
       defer
     ></script>
-    <script src="//unpkg.com/alpinejs@3.13.6/dist/cdn.min.js" defer></script>
+    <script
+      src="//cdn.jsdelivr.net/npm/tailwindcss@3.4.1/lib/index.min.js"
+      defer
+    ></script>
+    <script
+      src="//cdn.jsdelivr.net/npm/alpinejs@3.13.6/dist/cdn.min.js"
+      integrity="sha256-FTz1HAldsuHyr3y8w3VLPMUBshrpsxllBIGs9e+Wzzc="
+      crossorigin="anonymous"
+      defer
+    ></script>
 
     <div x-data x-show="$store.auth.status === 'authenticating'">
       Authenticating...
     </div>
     <div x-data x-show="$store.auth.status === 'success'">
-      <div x-data x-text="$store.auth.state.user.name"></div>
+      <span x-data x-text="$store.auth.state.user.name"></span>
+
+      <div
+        role="tablist"
+        class="inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground"
+      >
+        <button
+          role="tab"
+          type="button"
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow"
+        >
+          Template selector
+        </button>
+        <button
+          role="tab"
+          type="button"
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow"
+        >
+          Substitution tags
+        </button>
+        <button
+          role="tab"
+          type="button"
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow"
+        >
+          Preview
+        </button>
+      </div>
     </div>
-    <div
-      x-data
-      x-show="$store.auth.status === 'error'"
-      x-text="$store.auth.error"
-    ></div>
+    <div x-data x-show="$store.auth.status === 'error'">
+      <span x-data x-text="$store.auth.error"></span>
+    </div>
 
     <script>
       window.__APP_NAME__ = "Genesys Whatsapp Demo";
@@ -35,6 +69,17 @@
 
     <script>
       document.addEventListener("alpine:init", () => {
+        Alpine.data("tabs", () => ({
+          selectedTabIndex: 0,
+          setSelectedTabIndex(nextSelectedTabIndex) {
+            this.selectedTabIndex = nextSelectedTabIndex;
+          },
+        }));
+      });
+    </script>
+
+    <script>
+      document.addEventListener("alpine:init", () => {
         const platformClient = require("platformClient");
         const api = platformClient.ApiClient.instance;
         const usersApi = new platformClient.UsersApi();
@@ -43,6 +88,9 @@
         );
 
         api.setEnvironment(__APP_PLATFORM_ENV__);
+        api.setAccessToken(
+          "BlpZ9K9RROC6rqS1TltfvAdTBtTI15M1xANFHuzO3d1eWUc2Zhr6edpPRhvoHvN7zUpV_XEZy7k30wxpY0IBVg"
+        );
 
         Alpine.store("auth", {
           init() {
@@ -98,8 +146,6 @@
             this.status = "error";
           },
         });
-
-        Alpine.store("app");
       });
     </script>
   </body>
