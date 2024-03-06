@@ -14,16 +14,16 @@
 
     <div>
       <div x-data x-text="$store.auth.status"></div>
-      <div x-data x-show="$store.auth.status == 'authenticating'">
+      <div x-data x-show="$store.auth.status === 'authenticating'">
         Authenticating...
       </div>
-      <div x-data x-show="$store.auth.status == 'success'">
+      <div x-data x-show="$store.auth.status === 'success'">
         Good
         <span x-data x-text="JSON.stringify($store.auth.state)"></span>
       </div>
       <div
         x-data
-        x-show="$store.auth.status == 'error'"
+        x-show="$store.auth.status === 'error'"
         x-text="$store.auth.error"
       ></div>
     </div>
