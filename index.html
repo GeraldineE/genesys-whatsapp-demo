@@ -42,11 +42,10 @@
       </div>
 
       <div x-data x-show="$store.app.selectedTabIndex === 0">
-        <select>
+        <select x-model.number="$store.app.selectedTemplateIndex">
           <template
             x-data
             x-for="(template, templateIndex) in $store.app.templates"
-            x-model.number="$store.app.selectedTemplateIndex"
           >
             <option :value="templateIndex" x-text="template.label"></option>
           </template>
