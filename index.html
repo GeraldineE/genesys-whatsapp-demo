@@ -12,10 +12,12 @@
     ></script>
     <script src="//unpkg.com/alpinejs@3.13.6/dist/cdn.min.js" defer></script>
 
-    <div x-data="auth">
-      <div x-show="!state && !error">Authenticating...</div>
-      <div x-show="state && !error">Good</div>
-      <div x-show="error" x-text="error"></div>
+    <div x-data>
+      <div x-show="$store.auth.status == 'authenticating'">
+        Authenticating...
+      </div>
+      <div x-show="$store.auth.status == 'success'">Good</div>
+      <div x-show="$store.auth.status == 'error'" x-text="error"></div>
     </div>
 
     <script>
@@ -37,9 +39,10 @@
 
         api.setEnvironment(__APP_PLATFORM_ENV__);
 
-        Alpine.data("auth", () => ({
+        Alpine.store("auth", () => ({
           state: undefined,
           error: null,
+          status: "idle",
           getServerState() {
             return JSON.parse(
               decodeURIComponent(searchParameters.get("state"))
@@ -48,10 +51,20 @@
           getClientState() {
             return { appName: __APP_NAME__ };
           },
-          onAuthenticated(state) {},
-          onAuthenticating(state) {},
+          onAuthenticated(state) {
+            this.state = state;
+            this.error = null;
+            this.status = "success";
+          },
+          onAuthenticating() {
+            this.state = undefined;
+            this.error = null;
+            this.status = "authenticating";
+          },
           onError(error) {
-            console.error(error.message);
+            this.state = undefined;
+            this.error = error.message;
+            this.status = "error";
           },
           init() {
             const serverState = this.getServerState();
@@ -63,16 +76,8 @@
                   __APP_PLATFORM_CLIENT_ID__,
                   __APP_PLATFORM_REDIRECT_URL__
                 )
-                .then(() => {
-                  this.error = null;
-                  this.state = serverState;
-                  this.onAuthenticated(this.state);
-                })
-                .catch((e) => {
-                  this.error = e.message;
-                  this.state = undefined;
-                  this.onError(e);
-                });
+                .then(() => void this.onAuthenticated(serverState))
+                .catch((e) => this.onError(e));
             } else {
               api
                 .loginImplicitGrant(
@@ -80,19 +85,10 @@
                   __APP_PLATFORM_REDIRECT_URL__,
                   { state: JSON.stringify(clientState) }
                 )
-                .then(() => {
-                  this.error = null;
-                  this.state = undefined;
-                  this.onAuthenticating(this.state);
-                })
-                .catch((e) => {
-                  this.error = e.message;
-                  this.state = undefined;
-                  this.onError(e);
-                });
+                .then(() => void this.onAuthenticating())
+                .catch((e) => void this.onError(e));
             }
           },
-          destroy() {},
         }));
       });
     </script>
