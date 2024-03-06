@@ -96,22 +96,22 @@
           destroy() {},
         }));
 
-        Alpine.data("app", () => ({
-          user: null,
-          init() {
-            consle.log("init app");
+        // Alpine.data("app", () => ({
+        //   user: null,
+        //   init() {
+        //     consle.log("init app");
 
-            usersApi
-              .getUsersMe({ expand: ["presence"] })
-              .then((r) => {
-                console.log("[DATA:APP]", { r });
-              })
-              .catch((e) => {
-                console.log("[DATA:APP]", e);
-              });
-          },
-          destroy() {},
-        }));
+        //     usersApi
+        //       .getUsersMe({ expand: ["presence"] })
+        //       .then((r) => {
+        //         console.log("[DATA:APP]", { r });
+        //       })
+        //       .catch((e) => {
+        //         console.log("[DATA:APP]", e);
+        //       });
+        //   },
+        //   destroy() {},
+        // }));
       });
     </script>
   </body>
