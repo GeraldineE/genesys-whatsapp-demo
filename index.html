@@ -17,11 +17,7 @@
       defer
     ></script>
 
-    <div
-      x-data
-      x-show="$store.auth.status === 'authenticating'"
-      style="display: none"
-    >
+    <div x-data x-show="$store.auth.status === 'authenticating'">
       Authenticating...
     </div>
     <div x-data x-show="$store.auth.status === 'success'" style="display: none">
