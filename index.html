@@ -9,16 +9,13 @@
     <script
       src="//sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"
       defer
+      async
     ></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="//unpkg.com/alpinejs" defer async></script>
 
     <div x-data="auth">
       <div x-show="!state">Authenticating...</div>
-      <div x-show="state">
-        <div x-data="app">
-          <!-- <span x-text=""></span> -->
-        </div>
-      </div>
+      <div x-show="state">Goo</div>
     </div>
 
     <script>
