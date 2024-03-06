@@ -100,9 +100,14 @@
         Alpine.data("app", () => ({
           user: null,
           init() {
-            usersApi.getUsersMe({ expand: ["presence"] }).then((r) => {
-              console.log({ r });
-            });
+            usersApi
+              .getUsersMe({ expand: ["presence"] })
+              .then((r) => {
+                console.log("[DATA:APP]", { r });
+              })
+              .catch((e) => {
+                console.log("[DATA:APP]", e);
+              });
           },
           destroy() {},
         }));
