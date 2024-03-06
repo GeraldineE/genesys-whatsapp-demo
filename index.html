@@ -32,7 +32,7 @@
           <button
             role="tab"
             type="button"
-            @click="setSelectedTabIndex(tabIndex)"
+            @click="setSelectedTabIndex(0)"
             :style="{ backgroundColor: selectedTabIndex === tabIndex ? 'salmon' : '' }"
             x-text="tab.label"
           ></button>
@@ -41,7 +41,10 @@
 
       <div x-data x-show="$store.app.selectedTabIndex === 0">
         <select>
-          <template x-data x-for="(template, templateIndex) in templates">
+          <template
+            x-data
+            x-for="(template, templateIndex) in $store.app.templates"
+          >
             <option :value="templateIndex" x-text="template.label"></option>
           </template>
         </select>
@@ -152,9 +155,9 @@
       document.addEventListener("alpine:init", () => {
         Alpine.store("app", {
           tabs: [
-            { label: "Template selector", value: "" },
-            { label: "Substitution tags", value: "" },
-            { label: "Preview", value: "" },
+            { label: "Template selector", value: "TEMPLATE_SELECTOR" },
+            { label: "Substitution tags", value: "SUBSTITUTION_TAGS" },
+            { label: "Preview", value: "PREVIEW" },
           ],
           selectedTabIndex: 0,
           templates: [
