@@ -12,6 +12,7 @@
     ></script>
     <script src="//unpkg.com/alpinejs@3.13.6/dist/cdn.min.js" defer></script>
 
+    <div x-data x-text="$store.auth.status"></div>
     <div x-data x-show="$store.auth.status == 'authenticating'">
       Authenticating...
     </div>
@@ -44,6 +45,31 @@
         api.setEnvironment(__APP_PLATFORM_ENV__);
 
         Alpine.store("auth", () => ({
+          init() {
+            console.log("init auth");
+
+            const serverState = this.getServerState();
+            const clientState = this.getClientState();
+
+            if (serverState) {
+              api
+                .loginImplicitGrant(
+                  __APP_PLATFORM_CLIENT_ID__,
+                  __APP_PLATFORM_REDIRECT_URL__
+                )
+                .then(() => void this.onAuthenticated(serverState))
+                .catch((e) => this.onError(e));
+            } else {
+              api
+                .loginImplicitGrant(
+                  __APP_PLATFORM_CLIENT_ID__,
+                  __APP_PLATFORM_REDIRECT_URL__,
+                  { state: JSON.stringify(clientState) }
+                )
+                .then(() => void this.onAuthenticating())
+                .catch((e) => void this.onError(e));
+            }
+          },
           state: undefined,
           error: null,
           status: "idle",
@@ -69,29 +95,6 @@
             this.state = undefined;
             this.error = error.message;
             this.status = "error";
-          },
-          init() {
-            const serverState = this.getServerState();
-            const clientState = this.getClientState();
-
-            if (serverState) {
-              api
-                .loginImplicitGrant(
-                  __APP_PLATFORM_CLIENT_ID__,
-                  __APP_PLATFORM_REDIRECT_URL__
-                )
-                .then(() => void this.onAuthenticated(serverState))
-                .catch((e) => this.onError(e));
-            } else {
-              api
-                .loginImplicitGrant(
-                  __APP_PLATFORM_CLIENT_ID__,
-                  __APP_PLATFORM_REDIRECT_URL__,
-                  { state: JSON.stringify(clientState) }
-                )
-                .then(() => void this.onAuthenticating())
-                .catch((e) => void this.onError(e));
-            }
           },
         }));
       });
