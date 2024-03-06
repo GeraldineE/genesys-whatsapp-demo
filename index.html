@@ -11,10 +11,6 @@
       defer
     ></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/lib/index.min.js"
-      defer
-    ></script>
-    <script
       src="//cdn.jsdelivr.net/npm/alpinejs@3.13.6/dist/cdn.min.js"
       integrity="sha256-FTz1HAldsuHyr3y8w3VLPMUBshrpsxllBIGs9e+Wzzc="
       crossorigin="anonymous"
@@ -32,7 +28,7 @@
         x-data="tabs($store.app.selectedTabIndex)"
         x-modelable="selectedTabIndex"
         x-model="$store.app.selectedTabIndex"
-        class="flex"
+        styles="{{ dislay: 'flex' }}"
       >
         <template x-data x-for="(tab, tabIndex) in $store.app.tabs">
           <button
@@ -50,6 +46,7 @@
           <template
             x-data
             x-for="(template, templateIndex) in $store.app.templates"
+            x-model.number="$store.app.selectedTemplateIndex"
           >
             <option :value="templateIndex" x-text="template.label"></option>
           </template>
