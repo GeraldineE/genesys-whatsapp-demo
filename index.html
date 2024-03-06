@@ -59,9 +59,11 @@
             return { appName: APP_NAME };
           },
           onAuthenticated(state) {
-            console.log({ state });
+            console.log("authenticated", { state });
           },
-          onAuthenticating() {},
+          onAuthenticating(state) {
+            console.log("authenticating", { state });
+          },
           init() {
             const serverState = this.getServerState();
             const clientState = this.getClientState();
@@ -92,7 +94,7 @@
                   this.state = null;
                   this.onAuthenticating(this.state);
                 })
-                .then((e) => {
+                .catch((e) => {
                   console.log("alpine", e);
                 });
             }
