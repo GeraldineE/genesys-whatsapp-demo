@@ -6,7 +6,11 @@
     <title>Genesys WhatsApp Demo</title>
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/milligram@1.4.1/dist/milligram.min.css"
+      href="//cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/milligram@1.4.1/dist/milligram.min.css"
       integrity="sha256-baSxKEISHdSAWiipPkWRuquIMjgNIR//a++CyhnQdIM="
       crossorigin="anonymous"
     />
@@ -41,7 +45,7 @@
             role="tab"
             type="button"
             @click="setSelectedTabIndex(tabIndex)"
-            :class="{ 'button-clear': selectedTabIndex !== tabIndex,  }"
+            :class="{ row: true, 'button-clear': selectedTabIndex !== tabIndex }"
             x-text="tab.label"
           ></button>
         </template>
@@ -59,6 +63,7 @@
 
         <textarea
           readonly
+          rows="5"
           x-data
           x-text="$store.app.templates[$store.app.selectedTemplateIndex].value"
         >
