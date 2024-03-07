@@ -72,7 +72,7 @@
         <template
           x-data
           x-for="(substitutionTag, substitutionTagIndex) in $store.app.substitutionTags"
-          x-init="$store.app.substitutionTags = [{ key: 'agent_name', value: JSON.stringify($store.auth.state), editable: false }]"
+          x-init="$store.app.substitutionTags = [{ key: 'agent_name', value: JSON.stringify($store.auth), editable: false }]"
         >
           <div>
             <input type="text" name="key" x-model="substitutionTag.key" />
