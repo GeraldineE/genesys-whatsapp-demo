@@ -68,7 +68,7 @@
         <template
           x-data
           x-for="(substitutionTag, substitutionTagIndex) in $store.app.substitutionTags"
-          x-effect="$store.app.substitutionTags = [{key:'agent_name',value:$store.auth.state.user.name]"
+          x-effect="$store.app.substitutionTags = [{key:'agent_name',value:$store.auth.state.user.name}]"
         >
           <div>
             <input type="text" name="key" x-model="substitutionTag.key" />
