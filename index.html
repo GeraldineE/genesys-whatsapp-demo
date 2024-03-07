@@ -92,7 +92,7 @@
       <div x-data x-text="$store.app.selectedTabIndex">
         <textarea
           x-data
-          x-text="handlebars.compile($store.app.templates[$store.app.selectedTemplateIndex].value)($store.app.substitutionTags.reduce((output, current) => {
+          x-text="Handlebars.compile($store.app.templates[$store.app.selectedTemplateIndex].value)($store.app.substitutionTags.reduce((output, current) => {
           if (!current.key) return output
           return { ...output, [current.key]: current.value }
         }, {}))"
