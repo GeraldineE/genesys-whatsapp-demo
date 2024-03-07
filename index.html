@@ -15,9 +15,7 @@
       href="//cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
     />
   </head>
-  <body
-    :style="{fontFamily:`'Inter',sans-serif`,fontOpticalSizing:'auto',fontStyle:'normal',fontVariationSettings:`'slnt' 0`}"
-  >
+  <body>
     <script
       src="//sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"
       defer
@@ -33,7 +31,9 @@
       defer
     ></script>
 
-    <main :style="{width:500, padding: '1rem'}">
+    <main
+      :style="{fontFamily:`'Inter',sans-serif`,fontOpticalSizing:'auto',fontStyle:'normal',fontVariationSettings:`'slnt' 0`,width:500,padding:'1rem'}"
+    >
       <div x-data x-show="$store.auth.status === 'authenticating'">
         Authenticating...
       </div>
