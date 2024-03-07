@@ -29,8 +29,6 @@
       Authenticating...
     </div>
     <div x-data x-show="$store.auth.status === 'success'" style="display: none">
-      <span x-data x-text="$store.auth.state?.user?.name"></span>
-
       <div
         x-data="tabs($store.app.selectedTabIndex)"
         x-modelable="selectedTabIndex"
@@ -61,8 +59,8 @@
         <textarea
           x-data
           x-text="$store.app.templates[$store.app.selectedTemplateIndex].value"
-          readonly
           rows="10"
+          disabled
         >
         </textarea>
       </div>
@@ -70,10 +68,19 @@
         <template
           x-data
           x-for="(substitutionTag, substitutionTagIndex) in $store.app.substitutionTags"
+          x-init="$store.app.substitutionTags = [{ key: 'agent_name', value: $store.auth.state.user.name, editable: false }]"
         >
           <div>
             <input type="text" name="key" x-model="substitutionTag.key" />
             <input type="text" name="value" x-model="substitutionTag.value" />
+            <template x-data x-if="substitutionTag.editable">
+              <button
+                type="button"
+                @click="deleteSubstituationTag(substitutionTagIndex)"
+              >
+                Delete
+              </button>
+            </template>
           </div>
         </template>
         <div
@@ -94,6 +101,8 @@
           if (!current.key) return output
           return { ...output, [current.key]: current.value }
         }, {}))"
+          rows="10"
+          disabled
         ></textarea>
       </div>
     </div>
@@ -231,7 +240,11 @@
             this.substitutionTags.push({
               key: "",
               value: "",
+              editable: true,
             });
+          },
+          deleteSubstituationTag(substitutionTagIndex) {
+            this.substitutionTags.splice(substitutionTagIndex, 1);
           },
         });
       });
