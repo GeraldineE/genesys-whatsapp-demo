@@ -235,8 +235,8 @@
             return this.templates[this.selectedTemplateIndex].value;
           },
           substitutionTags: [],
-          getCurrentSubstitutionContext(substitutionTags) {
-            return substitutionTags.reduce((output, substitutionTag) => {
+          getCurrentSubstitutionContext() {
+            return this.substitutionTags.reduce((output, substitutionTag) => {
               if (substitutionTag.key) {
                 output[substitutionTag.key] = substitutionTag.value;
               }
