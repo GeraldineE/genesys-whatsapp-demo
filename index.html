@@ -41,7 +41,7 @@
             role="tab"
             type="button"
             @click="setSelectedTabIndex(tabIndex)"
-            :style="{ backgroundColor: selectedTabIndex === tabIndex ? 'salmon' : '' }"
+            :class="{ 'button-clear': selectedTabIndex !== tabIndex,  }"
             x-text="tab.label"
           ></button>
         </template>
