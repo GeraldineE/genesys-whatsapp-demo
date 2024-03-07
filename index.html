@@ -58,7 +58,7 @@
 
         <textarea
           x-data
-          x-text="$store.app.templates[$store.app.selectedTemplateIndex].value"
+          x-text="$store.app.getCurrentTemplate()"
           rows="10"
           disabled
         >
@@ -71,12 +71,17 @@
           x-effect="$store.app.substitutionTags = [{key:'agent_name',value:$store.auth.state.user.name}]"
         >
           <div>
-            <input type="text" name="key" x-model="substitutionTag.key" />
+            <input
+              type="text"
+              name="key"
+              :disabled="!substitutionTag.editable"
+              x-model="substitutionTag.key"
+            />
             <input type="text" name="value" x-model="substitutionTag.value" />
             <template x-data x-if="substitutionTag.editable">
               <button
                 type="button"
-                @click="deleteSubstituationTag(substitutionTagIndex)"
+                @click="$store.app.deleteSubstituationTag(substitutionTagIndex)"
               >
                 Delete
               </button>
@@ -85,10 +90,7 @@
         </template>
         <div
           x-data
-          x-text="JSON.stringify($store.app.substitutionTags.reduce((output, current) => {
-            if (!current.key) return output
-            return { ...output, [current.key]: current.value }
-          }, {}))"
+          x-text="JSON.stringify($store.app.getCurrentSubstitutionContext())"
         ></div>
         <button type="button" @click="$store.app.addEmptySubstitutionTag()">
           Set another key/value
@@ -97,10 +99,7 @@
       <div x-data x-show="$store.app.selectedTabIndex === 2">
         <textarea
           x-data
-          x-text="Handlebars.compile($store.app.templates[$store.app.selectedTemplateIndex].value)($store.app.substitutionTags.reduce((output, current) => {
-          if (!current.key) return output
-          return { ...output, [current.key]: current.value }
-        }, {}))"
+          x-text="Handlebars.compile($store.app.getCurrentTemplate())($store.app.getCurrentSubstitutionContext())"
           rows="10"
           disabled
         ></textarea>
@@ -232,7 +231,18 @@
             },
           ],
           selectedTemplateIndex: 0,
+          getCurrentTemplate() {
+            return this.templates[this.selectedTemplateIndex].value;
+          },
           substitutionTags: [],
+          getCurrentSubstitutionContext(substitutionTags) {
+            return substitutionTags.reduce((output, substitutionTag) => {
+              if (substitutionTag.key) {
+                output[substitutionTag.key] = substitutionTag.value;
+              }
+              return output;
+            }, {});
+          },
           addEmptySubstitutionTag() {
             this.substitutionTags.push({
               key: "",
