@@ -87,9 +87,7 @@
           Set another key/value
         </button>
       </div>
-      <div x-data x-show="$store.app.selectedTabIndex === 2"></div>
-
-      <div x-data x-text="$store.app.selectedTabIndex">
+      <div x-data x-show="$store.app.selectedTabIndex === 2">
         <textarea
           x-data
           x-text="Handlebars.compile($store.app.templates[$store.app.selectedTemplateIndex].value)($store.app.substitutionTags.reduce((output, current) => {
