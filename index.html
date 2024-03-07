@@ -31,7 +31,10 @@
       defer
     ></script>
 
-    <main x-data :style="{width:500,padding:'1rem'}">
+    <main
+      x-data
+      :style="{fontFamily:`'Inter',sans-serif`,fontOpticalSizing:'auto',fontStyle:'normal',fontVariationSettings:`'slnt' 0`,width:500,padding:'1rem'}"
+    >
       <div x-data x-show="$store.auth.status === 'authenticating'">
         Authenticating...
       </div>
