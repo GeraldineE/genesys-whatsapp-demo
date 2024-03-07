@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Genesys WhatsApp Demo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/milligram@1.4.1/dist/milligram.min.css"
+      integrity="sha256-baSxKEISHdSAWiipPkWRuquIMjgNIR//a++CyhnQdIM="
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <script
@@ -28,7 +34,7 @@
         x-data="tabs($store.app.selectedTabIndex)"
         x-modelable="selectedTabIndex"
         x-model="$store.app.selectedTabIndex"
-        styles="{{ dislay: 'flex' }}"
+        class="row"
       >
         <template x-data x-for="(tab, tabIndex) in $store.app.tabs">
           <button
