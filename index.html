@@ -72,7 +72,9 @@
             <input type="text" name="value" x-model="substitutionTag.value" />
           </div>
         </template>
-        <button type="button">Set another key/value</button>
+        <button type="button" @click="$store.app.addEmptySubstitutionTag()">
+          Set another key/value
+        </button>
       </div>
       <div x-data x-show="$store.app.selectedTabIndex === 2"></div>
 
