@@ -52,7 +52,7 @@
               role="tab"
               type="button"
               @click="setSelectedTabIndex(tabIndex)"
-              :style="{all:'unset',display:'inline-flex',alignItems:'center',justifyContent:'center',padding:'0.25rem 0.75rem',fontSize:'0.875rem',fontWeight:'500',lineHeight:'1.25rem',color:'#52525b',backgroundColor: tabIndex === selectedTabIndex ? '#ffffff' : 'none',borderRadius:'calc(0.5rem - 0.125rem)',whiteSpace:'nowrap'}"
+              :style="{display:'inline-flex',alignItems:'center',justifyContent:'center',padding:'0.25rem 0.75rem',fontSize:'0.875rem',fontWeight:'500',lineHeight:'1.25rem',color:'#52525b',backgroundColor: tabIndex === selectedTabIndex ? '#ffffff' : 'none',border: 0,borderRadius:'calc(0.5rem - 0.125rem)',whiteSpace:'nowrap'}"
               x-text="tab.label"
             ></button>
           </template>
