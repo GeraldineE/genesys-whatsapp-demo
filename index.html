@@ -93,11 +93,16 @@
           <select
             x-model.number="$store.app.selectedTemplateIndex"
             :style="{
+              appearance: 'none',
               fontSize: '0.875rem',
               fontWeight: '400',
               lineHeight: '1.25rem',
               color: '#09090b',
               padding: '0.5rem 0.75rem',
+              background-image: url(data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iaC00IHctNCBvcGFjaXR5LTUwIiBhcmlhLWhpZGRlbj0idHJ1ZSI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+);
+              background-position: calc(100% - 0.75rem) 50%;
+              background-repeat: no-repeat;
+              background-size: 1rem;
               border: '1px solid #e4e4e7',
               borderRadius: 'calc(0.5rem - 0.125rem)',
               cursor: 'pointer'
