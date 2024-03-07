@@ -25,89 +25,96 @@
       defer
     ></script>
 
-    <div x-data x-show="$store.auth.status === 'authenticating'">
-      Authenticating...
-    </div>
-    <div x-data x-show="$store.auth.status === 'success'" style="display: none">
-      <div
-        x-data="tabs($store.app.selectedTabIndex)"
-        x-modelable="selectedTabIndex"
-        x-model="$store.app.selectedTabIndex"
-        role="tablist"
-      >
-        <template x-data x-for="(tab, tabIndex) in $store.app.tabs">
-          <button
-            role="tab"
-            type="button"
-            @click="setSelectedTabIndex(tabIndex)"
-            :style="{ backgroundColor: tabIndex === selectedTabIndex ? 'darkgrey' : 'none' }"
-            x-text="tab.label"
-          ></button>
-        </template>
+    <main :style="{width:500, padding: '1rem'}">
+      <div x-data x-show="$store.auth.status === 'authenticating'">
+        Authenticating...
       </div>
+      <div
+        x-data
+        x-show="$store.auth.status === 'success'"
+        style="display: none"
+      >
+        <div
+          x-data="tabs($store.app.selectedTabIndex)"
+          x-modelable="selectedTabIndex"
+          x-model="$store.app.selectedTabIndex"
+          role="tablist"
+          :style="{display:'inline-flex',alignItems:'center',justifyContent:'center',padding:'0.25rem',backgroundColor:'#f4f4f5',borderRadius:'0.5rem'}"
+        >
+          <template x-data x-for="(tab, tabIndex) in $store.app.tabs">
+            <button
+              role="tab"
+              type="button"
+              @click="setSelectedTabIndex(tabIndex)"
+              :style="{display:'inline-flex',alignItems:'center',justifyContent:'center',padding:'0.25rem 0.75rem',fontSize:'0.875rem',fontWeight:'500',lineHeight:'1.25rem',color:'#52525b',backgroundColor: tabIndex === selectedTabIndex ? '#ffffff' : 'none',:'calc(0.5rem-0.125rem)',whiteSpace:'nowrap'}"
+              x-text="tab.label"
+            ></button>
+          </template>
+        </div>
 
-      <div x-data x-show="$store.app.selectedTabIndex === 0">
-        <select x-model.number="$store.app.selectedTemplateIndex">
+        <div x-data x-show="$store.app.selectedTabIndex === 0">
+          <select x-model.number="$store.app.selectedTemplateIndex">
+            <template
+              x-data
+              x-for="(template, templateIndex) in $store.app.templates"
+            >
+              <option :value="templateIndex" x-text="template.label"></option>
+            </template>
+          </select>
+
+          <textarea
+            x-data
+            x-text="$store.app.getCurrentTemplate()"
+            rows="10"
+            disabled
+          >
+          </textarea>
+        </div>
+        <div x-data x-show="$store.app.selectedTabIndex === 1">
           <template
             x-data
-            x-for="(template, templateIndex) in $store.app.templates"
+            x-for="(substitutionTag, substitutionTagIndex) in $store.app.substitutionTags"
+            x-effect="$store.app.substitutionTags = [{key:'agent_name',value:$store.auth.state.user.name}]"
           >
-            <option :value="templateIndex" x-text="template.label"></option>
+            <div>
+              <input
+                type="text"
+                name="key"
+                :disabled="!substitutionTag.editable"
+                x-model="substitutionTag.key"
+              />
+              <input type="text" name="value" x-model="substitutionTag.value" />
+              <template x-data x-if="substitutionTag.editable">
+                <button
+                  type="button"
+                  @click="$store.app.deleteSubstituationTag(substitutionTagIndex)"
+                >
+                  Delete
+                </button>
+              </template>
+            </div>
           </template>
-        </select>
-
-        <textarea
-          x-data
-          x-text="$store.app.getCurrentTemplate()"
-          rows="10"
-          disabled
-        >
-        </textarea>
+          <div
+            x-data
+            x-text="JSON.stringify($store.app.getCurrentSubstitutionContext())"
+          ></div>
+          <button type="button" @click="$store.app.addEmptySubstitutionTag()">
+            Set another key/value
+          </button>
+        </div>
+        <div x-data x-show="$store.app.selectedTabIndex === 2">
+          <textarea
+            x-data
+            x-text="Handlebars.compile($store.app.getCurrentTemplate())($store.app.getCurrentSubstitutionContext())"
+            rows="10"
+            disabled
+          ></textarea>
+        </div>
       </div>
-      <div x-data x-show="$store.app.selectedTabIndex === 1">
-        <template
-          x-data
-          x-for="(substitutionTag, substitutionTagIndex) in $store.app.substitutionTags"
-          x-effect="$store.app.substitutionTags = [{key:'agent_name',value:$store.auth.state.user.name}]"
-        >
-          <div>
-            <input
-              type="text"
-              name="key"
-              :disabled="!substitutionTag.editable"
-              x-model="substitutionTag.key"
-            />
-            <input type="text" name="value" x-model="substitutionTag.value" />
-            <template x-data x-if="substitutionTag.editable">
-              <button
-                type="button"
-                @click="$store.app.deleteSubstituationTag(substitutionTagIndex)"
-              >
-                Delete
-              </button>
-            </template>
-          </div>
-        </template>
-        <div
-          x-data
-          x-text="JSON.stringify($store.app.getCurrentSubstitutionContext())"
-        ></div>
-        <button type="button" @click="$store.app.addEmptySubstitutionTag()">
-          Set another key/value
-        </button>
+      <div x-data x-show="$store.auth.status === 'error'" style="display: none">
+        <span x-data x-text="$store.auth.error"></span>
       </div>
-      <div x-data x-show="$store.app.selectedTabIndex === 2">
-        <textarea
-          x-data
-          x-text="Handlebars.compile($store.app.getCurrentTemplate())($store.app.getCurrentSubstitutionContext())"
-          rows="10"
-          disabled
-        ></textarea>
-      </div>
-    </div>
-    <div x-data x-show="$store.auth.status === 'error'" style="display: none">
-      <span x-data x-text="$store.auth.error"></span>
-    </div>
+    </main>
 
     <script>
       window.__APP_NAME__ = "Genesys Whatsapp Demo";
