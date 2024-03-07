@@ -28,7 +28,11 @@
     <div x-data x-show="$store.auth.status === 'authenticating'">
       Authenticating...
     </div>
-    <div x-data x-show="$store.auth.status === 'success'" x-effect="console.log($store.auth)" style="display: none">
+    <div
+      x-data
+      x-show="$store.auth.status === 'success' && $store.auth.state"
+      style="display: none"
+    >
       <div
         x-data="tabs($store.app.selectedTabIndex)"
         x-modelable="selectedTabIndex"
