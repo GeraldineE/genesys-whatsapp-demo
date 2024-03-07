@@ -153,6 +153,8 @@
                 );
                 const user = await usersApi.getUsersMe();
 
+                console.log({ user });
+
                 this.onAuthenticated({ ...serverState, user });
               } else {
                 await api.loginImplicitGrant(
