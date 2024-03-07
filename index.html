@@ -8,12 +8,6 @@
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="//cdn.jsdelivr.net/npm/milligram@1.4.1/dist/milligram.min.css"
-      integrity="sha256-baSxKEISHdSAWiipPkWRuquIMjgNIR//a++CyhnQdIM="
-      crossorigin="anonymous"
-    />
   </head>
   <body>
     <script
@@ -30,12 +24,7 @@
     <div x-data x-show="$store.auth.status === 'authenticating'">
       Authenticating...
     </div>
-    <div
-      x-data
-      x-show="$store.auth.status === 'success'"
-      class="container"
-      style="display: none"
-    >
+    <div x-data x-show="$store.auth.status === 'success'" style="display: none">
       <span x-data x-text="$store.auth.state.user.name"></span>
 
       <div
@@ -43,14 +32,13 @@
         x-modelable="selectedTabIndex"
         x-model="$store.app.selectedTabIndex"
         role="tablist"
-        class="row"
       >
         <template x-data x-for="(tab, tabIndex) in $store.app.tabs">
           <button
             role="tab"
             type="button"
             @click="setSelectedTabIndex(tabIndex)"
-            :class="{ column: true, 'button-clear': selectedTabIndex !== tabIndex }"
+            :style="{ backgroundColor: tabIndex === selectedTabIndex ? 'slategrey' : 'none' }"
             x-text="tab.label"
           ></button>
         </template>
