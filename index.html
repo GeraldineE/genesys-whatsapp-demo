@@ -38,7 +38,7 @@
             role="tab"
             type="button"
             @click="setSelectedTabIndex(tabIndex)"
-            :style="{ backgroundColor: tabIndex === selectedTabIndex ? 'slategrey' : 'none' }"
+            :style="{ backgroundColor: tabIndex === selectedTabIndex ? 'darkgrey' : 'none' }"
             x-text="tab.label"
           ></button>
         </template>
@@ -62,7 +62,18 @@
         >
         </textarea>
       </div>
-      <div x-data x-show="$store.app.selectedTabIndex === 1"></div>
+      <div x-data x-show="$store.app.selectedTabIndex === 1">
+        <template
+          x-data
+          x-for="(substitutionTag, substitutionTagIndex) in $store.app.substitutionTags"
+        >
+          <div>
+            <input type="text" name="key" x-model="substitutionTag.key" />
+            <input type="text" name="value" x-model="substitutionTag.value" />
+          </div>
+        </template>
+        <button type="button">Set another key/value</button>
+      </div>
       <div x-data x-show="$store.app.selectedTabIndex === 2"></div>
 
       <div x-data x-text="$store.app.selectedTabIndex"></div>
@@ -196,6 +207,13 @@
             },
           ],
           selectedTemplateIndex: 0,
+          substitutionTags: [],
+          addEmptySubstitutionTag() {
+            this.substitutionTags.push({
+              key: "",
+              value: "",
+            });
+          },
         });
       });
     </script>
