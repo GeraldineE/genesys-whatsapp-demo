@@ -33,7 +33,14 @@
 
     <main
       x-data
-      :style="{fontFamily:`'Inter',sans-serif`,fontOpticalSizing:'auto',fontStyle:'normal',fontVariationSettings:`'slnt' 0`,width:500,padding:'1rem'}"
+      :style="{ 
+        fontFamily: `'Inter',sans-serif`,
+        fontOpticalSizing: 'auto',
+        fontStyle: 'normal',
+        fontVariationSettings: `'slnt' 0`,
+        width: 500,
+        padding: '1rem'
+      }"
     >
       <div x-data x-show="$store.auth.status === 'authenticating'">
         Authenticating...
@@ -48,14 +55,34 @@
           x-modelable="selectedTabIndex"
           x-model="$store.app.selectedTabIndex"
           role="tablist"
-          :style="{display:'inline-flex',alignItems:'center',justifyContent:'center',padding:'0.25rem',backgroundColor:'#f4f4f5',borderRadius:'0.5rem'}"
+          :style="{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '0.25rem',
+            backgroundColor: '#f4f4f5',
+            borderRadius: '0.5rem'
+          }"
         >
           <template x-data x-for="(tab, tabIndex) in $store.app.tabs">
             <button
               role="tab"
               type="button"
               @click="setSelectedTabIndex(tabIndex)"
-              :style="{display:'inline-flex',alignItems:'center',justifyContent:'center',padding:'0.25rem 0.75rem',fontSize:'0.875rem',fontWeight:'500',lineHeight:'1.25rem',color:'#52525b',backgroundColor: tabIndex === selectedTabIndex ? '#ffffff' : 'none',border: 0,borderRadius:'calc(0.5rem - 0.125rem)',whiteSpace:'nowrap'}"
+              :style="{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0.25rem 0.75rem',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                lineHeight: '1.25rem',
+                whiteSpace: 'nowrap',
+                color: tabIndex === selectedTabIndex ? '#09090b' : '#52525b',
+                backgroundColor: tabIndex === selectedTabIndex ? '#ffffff' : 'none',
+                border: 0,
+                borderRadius: 'calc(0.5rem - 0.125rem)'
+              }"
               x-text="tab.label"
             ></button>
           </template>
