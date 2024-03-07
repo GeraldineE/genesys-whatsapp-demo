@@ -72,6 +72,13 @@
             <input type="text" name="value" x-model="substitutionTag.value" />
           </div>
         </template>
+        <div
+          x-data
+          x-text="JSON.stringify($store.app.substitutionTags.reduce((output, current) => {
+            if (!current.key) return output
+            return { ...output, [current.key]: current.value }
+          }, {}))"
+        ></div>
         <button type="button" @click="$store.app.addEmptySubstitutionTag()">
           Set another key/value
         </button>
