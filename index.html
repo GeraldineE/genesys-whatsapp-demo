@@ -48,7 +48,11 @@
       <div
         x-data
         x-show="$store.auth.status === 'success'"
-        style="display: none"
+        :style="{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '2rem'
+        }"
       >
         <div
           x-data="tabs($store.app.selectedTabIndex)"
@@ -89,7 +93,15 @@
           </template>
         </div>
 
-        <div x-data x-show="$store.app.selectedTabIndex === 0">
+        <div
+          x-data
+          x-show="$store.app.selectedTabIndex === 0"
+          :style="{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem'
+          }"
+        >
           <select
             x-model.number="$store.app.selectedTemplateIndex"
             :style="{
@@ -99,6 +111,7 @@
               lineHeight: '1.25rem',
               color: '#09090b',
               padding: '0.5rem 0.75rem',
+              paddingRight: '2.25rem',
               backgroundImage: 'url(data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iaC00IHctNCBvcGFjaXR5LTUwIiBhcmlhLWhpZGRlbj0idHJ1ZSI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+)',
               backgroundPosition: 'calc(100% - 0.75rem) 50%',
               backgroundRepeat: 'no-repeat',
