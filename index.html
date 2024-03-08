@@ -78,6 +78,7 @@
                 type="button"
                 @click="setSelectedTabIndex(tabIndex)"
                 :style="{
+                  flex: '1',
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -90,65 +91,61 @@
                   backgroundColor: tabIndex === selectedTabIndex ? '#ffffff' : 'none',
                   border: 0,
                   borderRadius: 'calc(0.5rem - 0.125rem)',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
                 }"
                 x-text="tab.label"
               ></button>
             </template>
           </div>
 
-          <div
-            x-data
-            x-show="$store.app.selectedTabIndex === 0"
-            :style="{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem' 
-            }"
-          >
-            <select
-              x-model.number="$store.app.selectedTemplateIndex"
+          <div x-data x-show="$store.app.selectedTabIndex === 0">
+            <div
+              x-data
               :style="{
-                appearance: 'none',
-                fontSize: '0.875rem',
-                fontWeight: '400',
-                lineHeight: '1.25rem',
-                color: '#09090b',
-                padding: '0.5rem 0.75rem',
-                backgroundImage: 'url(data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iaC00IHctNCBvcGFjaXR5LTUwIiBhcmlhLWhpZGRlbj0idHJ1ZSI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+)',
-                backgroundPosition: 'calc(100% - 0.75rem) 50%',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: '1rem',
-                border: '1px solid #e4e4e7',
-                borderRadius: 'calc(0.5rem - 0.125rem)',
-                cursor: 'pointer'
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem' 
               }"
             >
-              <template
-                x-data
-                x-for="(template, templateIndex) in $store.app.templates"
+              <select
+                x-model.number="$store.app.selectedTemplateIndex"
+                :style="{
+                  appearance: 'none',
+                  fontSize: '0.875rem',
+                  fontWeight: '400',
+                  lineHeight: '1.25rem',
+                  color: '#09090b',
+                  padding: '0.5rem 0.75rem',
+                  backgroundImage: 'url(data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iaC00IHctNCBvcGFjaXR5LTUwIiBhcmlhLWhpZGRlbj0idHJ1ZSI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+)',
+                  backgroundPosition: 'calc(100% - 0.75rem) 50%',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: '1rem',
+                  border: '1px solid #e4e4e7',
+                  borderRadius: 'calc(0.5rem - 0.125rem)',
+                  cursor: 'pointer'
+                }"
               >
-                <option :value="templateIndex" x-text="template.label"></option>
-              </template>
-            </select>
+                <template
+                  x-data
+                  x-for="(template, templateIndex) in $store.app.templates"
+                >
+                  <option
+                    :value="templateIndex"
+                    x-text="template.label"
+                  ></option>
+                </template>
+              </select>
 
-            <textarea
-              x-data
-              x-text="$store.app.getCurrentTemplate()"
-              rows="10"
-              disabled
-            >
-            </textarea>
+              <textarea
+                x-data
+                x-text="$store.app.getCurrentTemplate()"
+                rows="10"
+                disabled
+              >
+              </textarea>
+            </div>
           </div>
-          <div
-            x-data
-            x-show="$store.app.selectedTabIndex === 1"
-            :style="{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem' 
-            }"
-          >
+          <div x-data x-show="$store.app.selectedTabIndex === 1">
             <template
               x-data
               x-for="(substitutionTag, substitutionTagIndex) in $store.app.substitutionTags"
@@ -184,15 +181,7 @@
               Set another key/value
             </button>
           </div>
-          <div
-            x-data
-            x-show="$store.app.selectedTabIndex === 2"
-            :style="{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem' 
-            }"
-          >
+          <div x-data x-show="$store.app.selectedTabIndex === 2">
             <textarea
               x-data
               x-text="Handlebars.compile($store.app.getCurrentTemplate())($store.app.getCurrentSubstitutionContext())"
