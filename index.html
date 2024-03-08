@@ -304,6 +304,21 @@
                 x-text="Handlebars.compile($store.app.getCurrentTemplate())($store.app.getCurrentSubstitutionContext())"
               ></textarea>
 
+              <div>
+                <select>
+                  <template
+                    x-data
+                    x-for="(country, countryIndex) in $store.app.countries"
+                  >
+                    <option
+                      :value="country.value"
+                      x-text="country.label"
+                    ></option>
+                  </template>
+                </select>
+                <input type="text" />
+              </div>
+
               <button
                 type="button"
                 :style="{
@@ -431,6 +446,12 @@
     <script>
       document.addEventListener("alpine:init", () => {
         Alpine.store("app", {
+          countries: [
+            { label: "Afghanistan", value: 93 },
+            { label: "Albania", value: "355" },
+            { label: "Algeria", value: "213" },
+            { label: "Andorra", value: "376" },
+          ],
           tabs: [
             { label: "Template selector", value: "TEMPLATE_SELECTOR" },
             { label: "Substitution tags", value: "SUBSTITUTION_TAGS" },
