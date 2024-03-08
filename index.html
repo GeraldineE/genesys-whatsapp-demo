@@ -137,10 +137,17 @@
               </select>
 
               <textarea
-                x-data
-                x-text="$store.app.getCurrentTemplate()"
                 rows="10"
-                disabled
+                disabled="true"
+                x-data
+                :style="{
+                  fontSize: '0.875rem',
+                  fontWeight: '400',
+                  lineHeight: '1.25rem',
+                  color: '#09090b',
+                  padding: '0.5rem 0.75rem',
+                }"
+                x-text="$store.app.getCurrentTemplate()"
               >
               </textarea>
             </div>
@@ -183,10 +190,17 @@
           </div>
           <div x-data x-show="$store.app.selectedTabIndex === 2">
             <textarea
-              x-data
-              x-text="Handlebars.compile($store.app.getCurrentTemplate())($store.app.getCurrentSubstitutionContext())"
               rows="10"
-              disabled
+              disabled="true"
+              x-data
+              :style="{
+                fontSize: '0.875rem',
+                fontWeight: '400',
+                lineHeight: '1.25rem',
+                color: '#09090b',
+                padding: '0.5rem 0.75rem',
+              }"
+              x-text="Handlebars.compile($store.app.getCurrentTemplate())($store.app.getCurrentSubstitutionContext())"
             ></textarea>
           </div>
         </div>
