@@ -302,6 +302,26 @@
               }"
                 x-text="Handlebars.compile($store.app.getCurrentTemplate())($store.app.getCurrentSubstitutionContext())"
               ></textarea>
+
+              <button
+                type="button"
+                :style="{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '2.25rem',
+                  fontSize: '0.875rem',
+                  fontWeight: '400',
+                  lineHeight: '1.25rem',
+                  color: '#fafafa',
+                  padding: '0.5rem 1rem',
+                  backgroundColor: '#18181b',
+                  border: '1px solid #e4e4e7',
+                  borderRadius: 'calc(0.5rem - 0.125rem)',
+                }"
+              >
+                Submit
+              </button>
             </div>
           </div>
         </div>
