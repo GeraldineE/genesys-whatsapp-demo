@@ -14,6 +14,11 @@
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
     />
+    <style>
+      [x-cloak] {
+        display: none !important;
+      }
+    </style>
   </head>
   <body>
     <script
@@ -42,14 +47,10 @@
         padding: '1rem'
       }"
     >
-      <div x-data x-show="$store.auth.status === 'authenticating'">
+      <div x-data x-show="$store.auth.status === 'authenticating'" x-cloak>
         Authenticating...
       </div>
-      <div
-        x-data
-        x-show="$store.auth.status === 'success'"
-        style="display: none"
-      >
+      <div x-data x-show="$store.auth.status === 'success'" x-cloak>
         <div
           x-data
           :style="{
@@ -227,7 +228,7 @@
                           fontWeight: '400',
                           lineHeight: '1.25rem',
                           border: 'none',
-                          backgroundColor: 'none',
+                          backgroundColor: 'transparent',
                           cursor: 'pointer'
                         }"
                         @click="$store.app.deleteSubstituationTag(substitutionTagIndex)"
@@ -305,7 +306,7 @@
           </div>
         </div>
       </div>
-      <div x-data x-show="$store.auth.status === 'error'" style="display: none">
+      <div x-data x-show="$store.auth.status === 'error'" x-cloak>
         <span x-data x-text="$store.auth.error"></span>
       </div>
     </main>
