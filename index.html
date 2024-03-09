@@ -431,6 +431,8 @@
       window.__APP_PLATFORM_ENV__ = "sae1.pure.cloud";
       window.__APP_PLATFORM_CLIENT_ID__ =
         "faacf95d-903f-4db1-b00a-ecd8697d57a0";
+      window.__APP_WA_ACTION_URL__ =
+        "https://ugtw8betcb.execute-api.sa-east-1.amazonaws.com/prodx/ConnectorWA-SendAgentless?jsoncallback=yes&task=sendMessage";
       window.__APP_PLATFORM_REDIRECT_URL__ = new URL(
         location.pathname,
         location
@@ -1369,7 +1371,7 @@
               value: 263,
             },
           ],
-          countryCode: "57",
+          countryCode: 57,
           phoneNumber: "",
           tabs: [
             { label: "Template selector", value: "TEMPLATE_SELECTOR" },
@@ -1417,10 +1419,36 @@
           deleteSubstituationTag(substitutionTagIndex) {
             this.substitutionTags.splice(substitutionTagIndex, 1);
           },
-          sendMessage() {
-            window.alert(
-              `TBD: phone number -> +${this.countryCode}-${this.phoneNumber}`
-            );
+          async sendMessage() {
+            try {
+              const rawMessage = Handlebars.compile(this.getCurrentTemplate())(
+                this.getCurrentSubstitutionContext()
+              );
+              const fromAddress = `${rawMessage.split(";")[3]}`;
+              const toAddress = `+${this.countryCode}${this.phoneNumber}`;
+              const textBody = rawMessage;
+              const payload = {
+                toAddressMessengerType: "open",
+                fromAddress,
+                toAddress,
+                textBody,
+              };
+              await fetch(__APP_WA_ACTION_URL__, {
+                method: "POST",
+                body: JSON.stringify(payload),
+                credentials: true,
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }).then((response) => {
+                if (response.ok) return response.json();
+                return Promise.reject(new Error(`Something went wrong`));
+              });
+
+              window.alert(`Message sent by Genesys Cloud`);
+            } catch (e) {
+              window.alert(e.message);
+            }
           },
         });
       });
