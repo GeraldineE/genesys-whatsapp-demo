@@ -318,6 +318,7 @@
               >
                 <select
                   x-data
+                  x-model.number="$store.app.countryCode"
                   :style="{
                     width: '50%',
                     appearance: 'none',
@@ -349,7 +350,8 @@
                 <input
                   type="text"
                   x-data
-                  x-mask="9999 9999 9999 9999"
+                  x-model="$store.app.phoneNumber"
+                  x-mask:dynamic="$store.app.countryCode === 57 ? '999 999 9999' : '9999999999'"
                   :style="{
                     width: '50%',
                     fontSize: '0.875rem',
@@ -429,8 +431,6 @@
                   __APP_PLATFORM_REDIRECT_URL__
                 );
                 const user = await usersApi.getUsersMe();
-
-                console.log({ user });
 
                 this.onAuthenticated({ ...serverState, user });
               } else {
@@ -1336,6 +1336,8 @@
               value: 263,
             },
           ],
+          countryCode: null,
+          phoneNumber: "",
           tabs: [
             { label: "Template selector", value: "TEMPLATE_SELECTOR" },
             { label: "Substitution tags", value: "SUBSTITUTION_TAGS" },
@@ -1381,6 +1383,9 @@
           },
           deleteSubstituationTag(substitutionTagIndex) {
             this.substitutionTags.splice(substitutionTagIndex, 1);
+          },
+          sendMessage() {
+            window.alert("TBD");
           },
         });
       });
