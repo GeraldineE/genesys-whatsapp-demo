@@ -1435,12 +1435,12 @@
               const fromAddress = `${rawMessage.split(";")[3]}`;
               const toAddress = `+${this.countryCode}${this.phoneNumber}`;
               const textBody = rawMessage;
-              const payload = new URLSearchParams({
+              const payload = JSON.stringify({
                 fromAddress,
                 toAddressMessengerType,
                 toAddress,
                 textBody,
-              }).toString();
+              });
               const contentLength = new TextEncoder().encode(
                 payload
               ).byteLength;
