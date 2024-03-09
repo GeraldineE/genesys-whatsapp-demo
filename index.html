@@ -336,7 +336,7 @@
               >
                 <select
                   x-data
-                  x-model.number="$store.app.countryCode"
+                  x-model="$store.app.countryCode"
                   :style="{
                     width: '50%',
                     appearance: 'none',
@@ -1371,7 +1371,7 @@
               value: 263,
             },
           ],
-          countryCode: 57,
+          countryCode: "57",
           phoneNumber: "",
           tabs: [
             { label: "Template selector", value: "TEMPLATE_SELECTOR" },
