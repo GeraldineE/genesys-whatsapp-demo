@@ -361,6 +361,7 @@
                   >
                     <option
                       :value="country.value"
+                      :selected="$store.app.countryCode === country.value"
                       x-text="country.label"
                     ></option>
                   </template>
@@ -1420,16 +1421,22 @@
             this.substitutionTags.splice(substitutionTagIndex, 1);
           },
           async sendMessage() {
+            if (this.phoneNumber.length < 10) {
+              window.alert(`Please enter a valid phone number`);
+              return;
+            }
+
             try {
               const rawMessage = Handlebars.compile(this.getCurrentTemplate())(
                 this.getCurrentSubstitutionContext()
               );
+              const toAddressMessengerType = "open";
               const fromAddress = `${rawMessage.split(";")[3]}`;
               const toAddress = `+${this.countryCode}${this.phoneNumber}`;
               const textBody = rawMessage;
               const payload = {
-                toAddressMessengerType: "open",
                 fromAddress,
+                toAddressMessengerType,
                 toAddress,
                 textBody,
               };
