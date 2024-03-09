@@ -441,22 +441,45 @@
         >
           <div
             x-data
-            x-init="setTimeout(() => $store.removeNotification(notificationIndex), 3 * 1000 + notificationIndex * 1000)"
             :style="{
-              padding: '1.5rem 2rem',
+              padding: '1rem',
               border: '1px solid #e5e7eb',
-              borderRadius: 'calc(0.5rem - 0.125rem)'
+              borderRadius: 'calc(0.5rem - 0.125rem)',
+              backgroundColor: '#ffffff'
             }"
           >
-            <span
+            <div
               x-data
-              x-text="notification"
               :style="{
                 fontSize: '0.875rem',
-                fontWeight: '500',
+                fontWeight: '400',
                 lineHeight: '1.25rem'
               }"
-            ></span>
+            >
+              <div x-text="notification.title"></div>
+              <div
+                x-data
+                x-text="notification.message"
+                :style="{
+                  color: '#71717a'
+                }"
+              ></div>
+            </div>
+            <button
+              x-data
+              :style="{
+                height: '1.5rem',
+                padding: '0 0.5rem',
+                fontSize: '0.7rem',
+                lineHeight: 'normal',
+                color: '#fafafa',
+                borderRadius: '0.25rem',
+                backgroundColor: '#18181b',
+              }"
+              @click="$store.app.removeNotification(notificationIndex)"
+            >
+              Undo
+            </button>
           </div>
         </template>
       </div>
@@ -1456,23 +1479,27 @@
             this.substitutionTags.splice(substitutionTagIndex, 1);
           },
           notifications: [],
-          addNotification(message) {
+          addNotification(notification) {
             this.notifications.shift();
-            this.notifications.push(message);
+            this.notifications.push(notification);
           },
           removeNotification(notificationIndex) {
             this.notifications.splice(notificationIndex, 1);
           },
           async sendMessage() {
             if (this.phoneNumber.length < 10) {
-              // window.alert(`Please enter a valid phone number`);
-              this.addNotification(`Please enter a valid phone number`);
+              this.addNotification({
+                title: `Warning`,
+                message: `Please enter a valid phone number`,
+              });
               return;
             }
 
             try {
-              // window.alert(`Sending message, wait a couple seconds`);
-              this.addNotification(`Sending message, wait a couple seconds`);
+              this.addNotification({
+                title: "Success",
+                message: `Sending message, wait a couple seconds`,
+              });
               const rawMessage = Handlebars.compile(this.getCurrentTemplate())(
                 this.getCurrentSubstitutionContext()
               );
@@ -1505,11 +1532,15 @@
                 return Promise.reject(new Error(`Something went wrong`));
               });
 
-              // window.alert(`Message sent by Genesys Cloud`);
-              this.addNotification(`Message sent by Genesys Cloud`);
+              this.addNotification({
+                title: `Success`,
+                message: `Message sent by Genesys Cloud`,
+              });
             } catch (e) {
-              // window.alert(e.message);
-              this.addNotification(e.message);
+              this.addNotification({
+                title: `Error`,
+                message: e.message,
+              });
             }
           },
         });
