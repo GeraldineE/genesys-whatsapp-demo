@@ -59,6 +59,7 @@
           x-data
           :style="{
             display: 'flex',
+            justifyContent: 'flex-start'
           }"
         >
           <img
@@ -72,7 +73,9 @@
           :style="{
             display: 'flex',
             flexDirection: 'column',
-            gap: '2rem'
+            gap: '2rem',
+            marginTop: '1rem',
+            marginBottom: '1rem'
           }"
         >
           <div
@@ -407,13 +410,14 @@
         <div
           x-data
           :style="{
-            display: 'flex'
+            display: 'flex',
+            justifyContent: 'flex-end'
           }"
         >
           <img
-            class="logo2"
             src="https://dist.monitoreointeligente.informationsys.com/agentless-wa/logo-informationsystems.jpg"
             alt="Information Systems"
+            width="150"
           />
         </div>
       </div>
