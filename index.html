@@ -1538,9 +1538,9 @@
                 referrerPolicy: "no-referrer",
                 body: payload,
               }).then((response) => {
-                console.log(response.ok);
-                if (response.ok) return Promise.resolve(true);
-                console.log("error", response);
+                if ([0, 200].includes(response.status)) {
+                  return Promise.resolve(true);
+                }
                 return Promise.reject(new Error(`Something went wrong`));
               });
 
