@@ -419,9 +419,10 @@
         );
 
         api.setEnvironment(__APP_PLATFORM_ENV__);
-        api.setAccessToken(
-          "BlpZ9K9RROC6rqS1TltfvAdTBtTI15M1xANFHuzO3d1eWUc2Zhr6edpPRhvoHvN7zUpV_XEZy7k30wxpY0IBVg"
-        );
+        // Only for dev mode
+        // api.setAccessToken(
+        //   "BlpZ9K9RROC6rqS1TltfvAdTBtTI15M1xANFHuzO3d1eWUc2Zhr6edpPRhvoHvN7zUpV_XEZy7k30wxpY0IBVg"
+        // );
 
         Alpine.store("auth", {
           async init() {
