@@ -425,32 +425,33 @@
       <div x-data x-show="$store.auth.status === 'error'" x-cloak>
         <span x-data x-text="$store.auth.error"></span>
       </div>
-    </main>
 
-    <div
-      x-data
-      :style="{
-        position: 'fixed',
-        bottom: '0',
-        right: '0',
-        padding: '1rem'
-      }"
-    >
-      <template
+      <div
         x-data
-        x-for="(notification, notificationIndex) in $store.app.notifications"
+        :style="{
+          position: 'fixed',
+          bottom: '0',
+          right: '0',
+          padding: '1rem'
+        }"
       >
-        <div
+        <template
           x-data
-          :style="{
-            padding: '1.5rem 2rem',
-            border: '1px solid #e5e7eb',
-          }"
+          x-for="(notification, notificationIndex) in $store.app.notifications"
         >
-          <span x-data x-text="notification"></span>
-        </div>
-      </template>
-    </div>
+          <div
+            x-data
+            :style="{
+              padding: '1.5rem 2rem',
+              border: '1px solid #e5e7eb',
+              borderRadius: 'calc(0.5rem - 0.125rem)'
+            }"
+          >
+            <span x-data x-text="notification"></span>
+          </div>
+        </template>
+      </div>
+    </main>
 
     <script>
       window.__APP_NAME__ = "Genesys Whatsapp Demo";
