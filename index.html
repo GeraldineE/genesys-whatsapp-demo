@@ -1452,7 +1452,8 @@
           },
           async sendMessage() {
             if (this.phoneNumber.length < 10) {
-              window.alert(`Please enter a valid phone number`);
+              // window.alert(`Please enter a valid phone number`);
+              this.addNotification(`Please enter a valid phone number`);
               return;
             }
 
