@@ -1442,6 +1442,7 @@
               };
               await fetch(__APP_WA_ACTION_URL__, {
                 method: "POST",
+                mode: 'cors',
                 cache: "no-cache",
                 credentials: "same-origin",
                 headers: {
