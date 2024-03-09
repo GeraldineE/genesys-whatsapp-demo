@@ -1427,6 +1427,7 @@
             }
 
             try {
+              window.alert(`Sending message, wait a couple seconds`);
               const rawMessage = Handlebars.compile(this.getCurrentTemplate())(
                 this.getCurrentSubstitutionContext()
               );
