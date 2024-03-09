@@ -441,13 +441,22 @@
         >
           <div
             x-data
+            x-init="setTimeout(() => $store.removeNotification(notificationIndex), 3 * 1000 + notificationIndex * 1000)"
             :style="{
               padding: '1.5rem 2rem',
               border: '1px solid #e5e7eb',
               borderRadius: 'calc(0.5rem - 0.125rem)'
             }"
           >
-            <span x-data x-text="notification"></span>
+            <span
+              x-data
+              x-text="notification"
+              :style="{
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                lineHeight: '1.25rem'
+              }"
+            ></span>
           </div>
         </template>
       </div>
@@ -1450,6 +1459,9 @@
           addNotification(message) {
             this.notifications.shift();
             this.notifications.push(message);
+          },
+          removeNotification(notificationIndex) {
+            this.notifications.splice(notificationIndex, 1);
           },
           async sendMessage() {
             if (this.phoneNumber.length < 10) {
