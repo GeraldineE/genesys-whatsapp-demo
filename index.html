@@ -1442,11 +1442,13 @@
               };
               await fetch(__APP_WA_ACTION_URL__, {
                 method: "POST",
-                body: JSON.stringify(payload),
-                credentials: true,
+                cache: "no-cache",
+                credentials: "same-origin",
                 headers: {
                   "Content-Type": "application/json",
                 },
+                referrerPolicy: "no-referrer",
+                body: JSON.stringify(payload),
               }).then((response) => {
                 if (response.ok) return response.json();
                 return Promise.reject(new Error(`Something went wrong`));
