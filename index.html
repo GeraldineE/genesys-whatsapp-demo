@@ -427,6 +427,31 @@
       </div>
     </main>
 
+    <div
+      x-data
+      :style="{
+        position: 'fixed',
+        bottom: '0',
+        right: '0',
+        padding: '1rem'
+      }"
+    >
+      <template
+        x-data
+        x-for="(notification, notificationIndex) in $store.app.notifications"
+      >
+        <div
+          x-data
+          :style="{
+            padding: '1.5rem 2rem',
+            border: '1px solid #e5e7eb',
+          }"
+        >
+          <span x-data x-text="notification"></span>
+        </div>
+      </template>
+    </div>
+
     <script>
       window.__APP_NAME__ = "Genesys Whatsapp Demo";
       window.__APP_PLATFORM_ENV__ = "sae1.pure.cloud";
@@ -1420,6 +1445,11 @@
           deleteSubstituationTag(substitutionTagIndex) {
             this.substitutionTags.splice(substitutionTagIndex, 1);
           },
+          notifications: [],
+          addNotification(message) {
+            this.notifications.shift();
+            this.notifications.push(message);
+          },
           async sendMessage() {
             if (this.phoneNumber.length < 10) {
               window.alert(`Please enter a valid phone number`);
@@ -1427,7 +1457,8 @@
             }
 
             try {
-              window.alert(`Sending message, wait a couple seconds`);
+              // window.alert(`Sending message, wait a couple seconds`);
+              this.addNotification(`Sending message, wait a couple seconds`);
               const rawMessage = Handlebars.compile(this.getCurrentTemplate())(
                 this.getCurrentSubstitutionContext()
               );
@@ -1456,13 +1487,15 @@
                 referrerPolicy: "no-referrer",
                 body: payload,
               }).then((response) => {
-                if (response.ok) return response.text();
+                if (response.ok) return Promise.resolve(true);
                 return Promise.reject(new Error(`Something went wrong`));
               });
 
-              window.alert(`Message sent by Genesys Cloud`);
+              // window.alert(`Message sent by Genesys Cloud`);
+              this.addNotification(`Message sent by Genesys Cloud`);
             } catch (e) {
-              window.alert(e.message);
+              // window.alert(e.message);
+              this.addNotification(e.message);
             }
           },
         });
