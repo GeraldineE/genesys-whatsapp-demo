@@ -442,6 +442,9 @@
           <div
             x-data
             :style="{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
               padding: '1rem',
               border: '1px solid #e5e7eb',
               borderRadius: 'calc(0.5rem - 0.125rem)',
@@ -451,16 +454,22 @@
             <div
               x-data
               :style="{
-                fontSize: '0.875rem',
-                fontWeight: '400',
+                fontSize: '0.75rem',
                 lineHeight: '1.25rem'
               }"
             >
-              <div x-text="notification.title"></div>
+              <div
+                x-data
+                x-text="notification.title"
+                :style="{
+                  fontWeight: '500',
+                }"
+              ></div>
               <div
                 x-data
                 x-text="notification.message"
                 :style="{
+                  fontWeight: '400',
                   color: '#71717a'
                 }"
               ></div>
@@ -475,10 +484,11 @@
                 color: '#fafafa',
                 borderRadius: '0.25rem',
                 backgroundColor: '#18181b',
+                cursor: 'pointer'
               }"
               @click="$store.app.removeNotification(notificationIndex)"
             >
-              Undo
+              Close
             </button>
           </div>
         </template>
