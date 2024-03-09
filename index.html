@@ -1449,10 +1449,6 @@
                 mode: "no-cors",
                 cache: "no-cache",
                 headers: {
-                  Origin:
-                    "https://dist.monitoreointeligente.informationsys.com",
-                  Referer:
-                    "https://dist.monitoreointeligente.informationsys.com",
                   "Content-Type":
                     "application/x-www-form-urlencoded; charset=UTF-8",
                   "Content-Length": contentLength,
@@ -1460,7 +1456,7 @@
                 referrerPolicy: "no-referrer",
                 body: payload,
               }).then((response) => {
-                if (response.ok) return response.json();
+                if (response.ok) return response.text();
                 return Promise.reject(new Error(`Something went wrong`));
               });
 
