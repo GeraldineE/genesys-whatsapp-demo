@@ -193,6 +193,7 @@
                       type="text"
                       name="key"
                       placeholder="key"
+                      autofocus
                       :disabled="!substitutionTag.editable"
                       x-model="substitutionTag.key"
                       :style="{
@@ -1386,7 +1387,7 @@
             this.substitutionTags.splice(substitutionTagIndex, 1);
           },
           sendMessage() {
-            window.alert("TBD");
+            window.alert(`TBD: phone number -> +${this.countryCode}-${this.phoneNumber}`);
           },
         });
       });
